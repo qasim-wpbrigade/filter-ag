@@ -6,15 +6,14 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
 const columnDefs = [
-  { headerName: "Make", field: "make" },
-  { headerName: "Model", field: "model", sort: "desc" },
-  { headerName: "Price", field: "price" }
+  { headerName: "Id", field: "id" },
+  { headerName: "Name", field: "name" },
 ];
 
 const rowData = [
-  { make: "Toyota", model: "Celica", price: 35000 },
-  { make: "Ford", model: "Mondeo", price: 32000 },
-  { make: "Porsche", model: "Boxter", price: 72000 }
+  { id: 1, name: "Celica" },
+  { id: 2, name: "Mondeo" },
+  { id: 3, name: "Boxter" }
 ];
 
 const defaultColDef = {
@@ -30,9 +29,8 @@ class App extends React.Component {
     this.state = {
       data: [],
       filterData: [],
-      make: "",
-      model: "",
-      price: "",
+      f_name: "",
+      f_iprice: "",
       filtering: false
     };
   }
@@ -40,9 +38,8 @@ class App extends React.Component {
     if (this.state.filtering) {
       const fd = this.state.data.filter((i) => {
         return (
-          i.make.toLowerCase().includes(this.state.make) &&
-          i.model.toLowerCase().includes(this.state.model) &&
-          i?.price.toString().includes(this.state.price.toString())
+          i.name.toLowerCase().includes(this.state.id_name) &&
+          i.id.toString().includes(this.state.f_id.toString())
         );
       });
       this.setState({ filterData: fd, filtering: false });
@@ -70,28 +67,20 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        Make:&nbsp;
-        <input
-          type="text"
-          name="make"
-          id="make"
-          value={this.state.make}
-          onChange={this.handlefilter}
-        />
-        Model:&nbsp;
-        <input
-          type="text"
-          name="model"
-          id="model"
-          value={this.state.model}
-          onChange={this.handlefilter}
-        />
-        Price:&nbsp;
+        Id:&nbsp;
         <input
           type="number"
-          name="price"
-          id="price"
-          value={this.state.price}
+          name="f_id"
+          id="f_id"
+          value={this.state.f_id}
+          onChange={this.handlefilter}
+        />
+        Name:&nbsp;
+        <input
+          type="text"
+          name="f_name"
+          id="f_name"
+          value={this.state.f_name}
           onChange={this.handlefilter}
         />
         <br></br>
