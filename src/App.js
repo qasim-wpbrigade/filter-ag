@@ -5,17 +5,15 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 import W3cFilter from './W3C_Filter';
+import W3cEdit from './W3C_Edit';
 
 const columnDefs = [
   { headerName: "Id", field: "id" },
   { headerName: "Name", field: "name" },
+  { headerName: "email", field: "email", sort: "desc" },
+  { headerName: "body", field: "body" }
 ];
 
-const rowData = [
-  { id: 1, name: "Celica" },
-  { id: 2, name: "Mondeo" },
-  { id: 3, name: "Boxter" }
-];
 
 const defaultColDef = {
   editable: false,
@@ -32,6 +30,8 @@ class App extends React.Component {
       filterData: [],
       name: "",
       id: "",
+      sname: "",
+      sid: "",
       filtering: false,
       filtered: false,
     };
@@ -54,7 +54,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ data: rowData, filterData: rowData });
+    fetch("https://jsonplaceholder.typicode.com/comments")
+      .then((resp) => resp.json())
+      .then((resp) => {
+        // console.log(resp);
+        this.setState({
+          data: [...resp],
+          filterData: [...resp]
+        });
+        //console.log(this.state.rowData);
+      });
   }
 
   handlefilter = (e) => {
@@ -72,6 +81,10 @@ class App extends React.Component {
   };
 
   clearFilter = () => {
+    const t = document.querySelectorAll(".ag-filter-icon");
+    t.forEach((e) => {
+      e.style.display = "";
+    })
     this.setState({
       id: '',
       name: '',
@@ -83,6 +96,11 @@ class App extends React.Component {
     return (
       <div className="App">
         <W3cFilter setState={this.setState} clearFilter={this.clearFilter} handlefilter={this.handlefilter} state={this.state} />
+        <br></br>
+        <br></br>
+        {
+          this.state.filterd ? <W3cEdit /> : ''
+        }
         <br></br>
         <br></br>
         <div

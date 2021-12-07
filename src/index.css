@@ -47,3 +47,7 @@ form .my-form-control {
   cursor: pointer;
   text-decoration: underline;
 }
+.flex{
+  display: flex;
+  align-items: center;
+}
