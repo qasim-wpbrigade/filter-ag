@@ -42,3 +42,8 @@ form .my-form-control {
 .ag-header-cell-menu-button:not(.ag-header-menu-always-show) {
   display: none;
 }
+
+.link{
+  cursor: pointer;
+  text-decoration: underline;
+}

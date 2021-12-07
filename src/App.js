@@ -4,6 +4,7 @@ import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
+import W3cFilter from './W3C_Filter';
 
 const columnDefs = [
   { headerName: "Id", field: "id" },
@@ -29,20 +30,26 @@ class App extends React.Component {
     this.state = {
       data: [],
       filterData: [],
-      f_name: "",
-      f_iprice: "",
-      filtering: false
+      name: "",
+      id: "",
+      filtering: false,
+      filtered: false,
     };
+    this.setState = this.setState.bind(this);
   }
   componentDidUpdate() {
     if (this.state.filtering) {
+      let filterd = false;
+      if(this.state.name !== '' || this.state.id !== ''){
+        filterd = true
+      }
       const fd = this.state.data.filter((i) => {
         return (
-          i.name.toLowerCase().includes(this.state.id_name) &&
-          i.id.toString().includes(this.state.f_id.toString())
+          i.name.toLowerCase().includes(this.state.name) &&
+          i.id.toString().includes(this.state.id.toString())
         );
       });
-      this.setState({ filterData: fd, filtering: false });
+      this.setState({ filterData: fd, filtering: false,filterd:filterd });
     }
   }
 
@@ -64,25 +71,18 @@ class App extends React.Component {
     }
   };
 
+  clearFilter = () => {
+    this.setState({
+      id: '',
+      name: '',
+      filtering: true
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        Id:&nbsp;
-        <input
-          type="number"
-          name="f_id"
-          id="f_id"
-          value={this.state.f_id}
-          onChange={this.handlefilter}
-        />
-        Name:&nbsp;
-        <input
-          type="text"
-          name="f_name"
-          id="f_name"
-          value={this.state.f_name}
-          onChange={this.handlefilter}
-        />
+        <W3cFilter setState={this.setState} clearFilter={this.clearFilter} handlefilter={this.handlefilter} state={this.state} />
         <br></br>
         <br></br>
         <div
